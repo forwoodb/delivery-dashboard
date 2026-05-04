@@ -17,7 +17,6 @@ const Navbar = async () => {
 
     // redirect("/auth/login");
   };
-  console.log(session);
 
   return (
     <>
