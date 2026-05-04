@@ -3,6 +3,7 @@ import { auth } from "../lib/auth";
 import { redirect } from "next/navigation";
 import Trip from "../models/Trip";
 import { connectDb } from "../lib/db";
+import { revalidatePath } from "next/cache";
 
 const DeliveryPage = async () => {
   await connectDb();
@@ -20,7 +21,8 @@ const DeliveryPage = async () => {
   const userId = session.user.id;
 
   // Get trips
-  const trips = await Trip.find({});
+  const trips = await Trip.find({}).lean();
+
   console.log(trips);
 
   // Create new trip
@@ -31,6 +33,19 @@ const DeliveryPage = async () => {
 
     const newTrip = await new Trip({ area, userId });
     await newTrip.save();
+
+    revalidatePath("/dashboard");
+  };
+
+  // Delete a trip
+  const deleteTripAction = async (formData: FormData) => {
+    "use server";
+
+    const id = formData.get("id");
+
+    await Trip.findByIdAndDelete(id);
+
+    revalidatePath("/dashboard");
   };
 
   return (
@@ -56,8 +71,22 @@ const DeliveryPage = async () => {
             return (
               <tr key={trip._id}>
                 <td>{trip.area}</td>
+                {/* <td>{trip.createdAt}</td> */}
                 <td>{trip.createdAt.toLocaleDateString()}</td>
                 <td>{trip.createdAt.toLocaleTimeString()}</td>
+                <td>
+                  <button className="btn">Edit</button>
+                </td>
+                <td>
+                  <form action={deleteTripAction}>
+                    <input
+                      type="hidden"
+                      name="id"
+                      defaultValue={trip._id.toString()}
+                    />
+                    <button className="btn">Delete</button>
+                  </form>
+                </td>
               </tr>
             );
           })}
