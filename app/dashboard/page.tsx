@@ -24,7 +24,13 @@ const DeliveryPage = async () => {
   // Get trips
   const trips = await Trip.find({}).lean();
 
-  console.log(trips);
+  // // Front end unique
+  // const uniqueAreas = [...new Set(trips.map((trip) => trip.area))];
+
+  // Back end unique
+  const uniqueAreas = await Trip.distinct("area");
+
+  console.log(uniqueAreas);
 
   // Create new trip
   const createTripAction = async (formData: FormData) => {
@@ -56,7 +62,16 @@ const DeliveryPage = async () => {
         <form action={createTripAction} className="flex justify-center py-8">
           <label className="input">
             <span className="label">Area</span>
-            <input type="text" name="area" required />
+            <input type="text" name="area" list="areas" required />
+            <datalist id="areas">
+              {uniqueAreas.map((area) => {
+                return (
+                  <>
+                    <option value={area} />
+                  </>
+                );
+              })}
+            </datalist>
           </label>
           <button className="btn btn-primary">Add Trip</button>
         </form>
