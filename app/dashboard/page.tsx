@@ -49,7 +49,15 @@ const DeliveryPage = async () => {
             <th>Area</th>
           </tr>
         </thead>
-        <tbody>{}</tbody>
+        <tbody>
+          {trips.map((trip) => {
+            return (
+              <tr key={trip._id}>
+                <td>{trip.area}</td>
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
     </>
   );
