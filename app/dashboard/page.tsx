@@ -47,6 +47,8 @@ const DeliveryPage = async () => {
         <thead>
           <tr>
             <th>Area</th>
+            <th>Date</th>
+            <th>Time</th>
           </tr>
         </thead>
         <tbody>
@@ -54,6 +56,8 @@ const DeliveryPage = async () => {
             return (
               <tr key={trip._id}>
                 <td>{trip.area}</td>
+                <td>{trip.createdAt.toLocaleDateString()}</td>
+                <td>{trip.createdAt.toLocaleTimeString()}</td>
               </tr>
             );
           })}
