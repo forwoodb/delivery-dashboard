@@ -7,7 +7,7 @@ interface PageProps {
 }
 
 const EditPage = async ({ params }: PageProps) => {
-  await connectDb();
+  connectDb();
 
   const { id } = await params;
 

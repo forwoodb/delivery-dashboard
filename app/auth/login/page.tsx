@@ -20,8 +20,6 @@ const LoginPage = () => {
     });
 
     redirect("/dashboard");
-
-    console.log(formData);
   };
   return (
     <>
