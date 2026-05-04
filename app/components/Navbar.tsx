@@ -1,6 +1,24 @@
 import Link from "next/link";
+import { auth } from "../lib/auth";
+import { headers } from "next/headers";
+// import { redirect } from "next/navigation";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  const signOutAction = async () => {
+    "use server";
+
+    await auth.api.signOut({
+      headers: await headers(),
+    });
+
+    // redirect("/auth/login");
+  };
+  console.log(session);
+
   return (
     <>
       <div className="navbar bg-base-100 shadow-sm">
@@ -74,7 +92,15 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Button</a>
+          {session ? (
+            <form action={signOutAction}>
+              <button className="btn">Log Out</button>
+            </form>
+          ) : (
+            <Link href={`/auth/login`} className="btn">
+              Login/Register
+            </Link>
+          )}
         </div>
       </div>
     </>
