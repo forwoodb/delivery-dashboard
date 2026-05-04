@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Trip from "../models/Trip";
 import { connectDb } from "../lib/db";
 import { revalidatePath } from "next/cache";
+import Link from "next/link";
 
 const DeliveryPage = async () => {
   await connectDb();
@@ -76,7 +77,12 @@ const DeliveryPage = async () => {
                   <td>{trip.createdAt.toLocaleDateString()}</td>
                   <td>{trip.createdAt.toLocaleTimeString()}</td>
                   <td>
-                    <button className="btn">Edit</button>
+                    <Link
+                      href={`/dashboard/edit/${trip._id.toString()}`}
+                      className="btn"
+                    >
+                      Edit
+                    </Link>
                   </td>
                   <td>
                     <form action={deleteTripAction}>
