@@ -1,8 +1,11 @@
 import AuthForm from "@/app/components/AuthForm";
 import { auth } from "@/app/lib/auth";
+import { connectDb } from "@/app/lib/db";
 import { redirect } from "next/navigation";
 
 const RegisterPage = () => {
+  connectDb();
+
   const registerAction = async (formData: FormData) => {
     "use server";
 

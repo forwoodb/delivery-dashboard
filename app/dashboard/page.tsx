@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import Link from "next/link";
 
 const DeliveryPage = async () => {
-  connectDb();
+  await connectDb();
 
   // Get session info
   const session = await auth.api.getSession({

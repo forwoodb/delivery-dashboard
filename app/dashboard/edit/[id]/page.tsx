@@ -7,7 +7,7 @@ interface PageProps {
 }
 
 const EditPage = async ({ params }: PageProps) => {
-  connectDb();
+  await connectDb();
 
   const { id } = await params;
 
@@ -15,7 +15,6 @@ const EditPage = async ({ params }: PageProps) => {
 
   const date = new Date(trip.createdAt);
   const isoDate = date.toISOString().split("T")[0];
-  // const isoTime = date.toISOString().split("T")[1].slice(0, 5);
   const isoTime = date.toTimeString().slice(0, 5);
 
   // Update trip
