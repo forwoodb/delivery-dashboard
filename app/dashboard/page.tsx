@@ -22,7 +22,8 @@ const DeliveryPage = async () => {
   const userId = session.user.id;
 
   // Get trips
-  const trips = await Trip.find({}).lean();
+  // const trips = await Trip.find({}).lean();
+  const trips = await Trip.find({});
 
   // // Front end unique
   // const uniqueAreas = [...new Set(trips.map((trip) => trip.area))];
