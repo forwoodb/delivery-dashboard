@@ -73,7 +73,7 @@ const Navbar = async () => {
               <Link href={`/`}>Home</Link>
             </li>
             <li>
-              <details>
+              {/* <details>
                 <summary>Parent</summary>
                 <ul className="p-2 bg-base-100 w-40 z-1">
                   <li>
@@ -83,7 +83,7 @@ const Navbar = async () => {
                     <a>Submenu 2</a>
                   </li>
                 </ul>
-              </details>
+              </details> */}
             </li>
             <li>
               <Link href={`/dashboard`}>Dashboard</Link>
