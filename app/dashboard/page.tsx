@@ -3,7 +3,7 @@ import { auth } from "../lib/auth";
 import { redirect } from "next/navigation";
 import Trip from "../models/Trip";
 import { connectDb } from "../lib/db";
-import { revalidatePath } from "next/cache";
+// import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { refresh } from "next/cache";
 
@@ -24,7 +24,7 @@ const DeliveryPage = async () => {
 
   // Get trips
   // const trips = await Trip.find({}).lean();
-  const trips = await Trip.find({});
+  const trips = await Trip.find({ userId });
 
   // // Front end unique
   // const uniqueAreas = [...new Set(trips.map((trip) => trip.area))];
@@ -38,6 +38,18 @@ const DeliveryPage = async () => {
   const createTripAction = async (formData: FormData) => {
     "use server";
 
+    // Get session info
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) {
+      redirect("/auth/login");
+    }
+
+    // Get user ID
+    const userId = session.user.id;
+
     const area = formData.get("area");
 
     const newTrip = await new Trip({ area, userId });
@@ -50,6 +62,15 @@ const DeliveryPage = async () => {
   // Delete a trip
   const deleteTripAction = async (formData: FormData) => {
     "use server";
+
+    // Get session info
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) {
+      redirect("/auth/login");
+    }
 
     const id = formData.get("id");
 
