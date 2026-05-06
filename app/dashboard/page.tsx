@@ -38,6 +38,8 @@ const DeliveryPage = async () => {
   const createTripAction = async (formData: FormData) => {
     "use server";
 
+    await connectDb();
+
     // Get session info
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -62,6 +64,8 @@ const DeliveryPage = async () => {
   // Delete a trip
   const deleteTripAction = async (formData: FormData) => {
     "use server";
+
+    await connectDb();
 
     // Get session info
     const session = await auth.api.getSession({
