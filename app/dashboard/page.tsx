@@ -5,6 +5,7 @@ import Trip from "../models/Trip";
 import { connectDb } from "../lib/db";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
+import { refresh } from "next/cache";
 
 const DeliveryPage = async () => {
   await connectDb();
@@ -31,7 +32,7 @@ const DeliveryPage = async () => {
   // Back end unique
   const uniqueAreas = await Trip.distinct("area");
 
-  console.log(uniqueAreas);
+  // console.log(uniqueAreas);
 
   // Create new trip
   const createTripAction = async (formData: FormData) => {
@@ -42,7 +43,8 @@ const DeliveryPage = async () => {
     const newTrip = await new Trip({ area, userId });
     await newTrip.save();
 
-    revalidatePath("/dashboard");
+    // revalidatePath("/dashboard");
+    refresh();
   };
 
   // Delete a trip
@@ -53,7 +55,8 @@ const DeliveryPage = async () => {
 
     await Trip.findByIdAndDelete(id);
 
-    revalidatePath("/dashboard");
+    // revalidatePath("/dashboard");
+    refresh();
   };
 
   return (
@@ -66,11 +69,7 @@ const DeliveryPage = async () => {
             <input type="text" name="area" list="areas" required />
             <datalist id="areas">
               {uniqueAreas.map((area) => {
-                return (
-                  <>
-                    <option value={area} />
-                  </>
-                );
+                return <option key={area} value={area} />;
               })}
             </datalist>
           </label>
